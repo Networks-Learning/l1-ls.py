@@ -28,7 +28,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
     Parameters
     ----------
     A : mxn matrix
-        input data. columns correspond to features.
+        input data. Columns correspond to features.
     y : m vector
         outcome.
     lmbda : positive float
@@ -57,13 +57,13 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
     status  : string
         'Solved' or 'Failed'
     history : matrix
-        history data. columns represent (truncated) Newton iterations; rows
+        history data. Columns represent (truncated) Newton iterations; rows
         represent the following:
              - 1st row) gap
              - 2nd row) primal objective
              - 3rd row) dual objective
              - 4th row) step size
-             - 5th row) pcg status flag
+             - 5th row) pcg status flag (-1 = error, 1 = failed, 0 = success)
 
     References
     ----------
@@ -148,8 +148,8 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
 
         if (gap / dobj) < reltol:
             status = 'Solved'
-            history = np.hstack([np.asarray(pobjs) - np.asarray(dobjs),
-                                 pobjs, dobjs, sts, pflgs])
+            history = np.vstack([np.asarray(pobjs) - np.asarray(dobjs),
+                                 pobjs, dobjs, sts, pflgs]).transpose()
             if not quiet:
                 print('Absolute tolerance reached.')
                 break
@@ -185,12 +185,16 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
         # in the solution of the actual problem
         if info == 0 and np.all(dxu_old == dxu):
             pcgtol *= 0.1
-
-        if info < 0:
+            pflg = 0
+        elif info < 0:
+            pflg = -1
             raise TypeError('Incorrectly formulated problem.'
                             'Could not run PCG on it.')
-        if info > 0:
+        elif info > 0:
+            pflg = 1
             print('Could not converge PCG after {} iterations.'.format(info))
+        else:
+            pflg = 0
 
         dx, du = dxu[:n], dxu[n:]
 
