@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # This file is part of l1ls.
@@ -204,7 +203,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
             newf = np.hstack([newx - newu, -newx - newu])
             if np.max(newf) < 0:
                 newz = A.dot(newx) - y
-                newphi = np.sum(newz ** 2) + \
+                newphi = newz.dot(newz) + \
                     lmbda * np.sum(newu) - np.sum(np.log(-newf)) / t
                 if newphi - phi <= ALPHA * gdx:
                     break
