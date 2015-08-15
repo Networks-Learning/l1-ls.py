@@ -9,7 +9,8 @@
 
 import numpy as np
 from numpy.testing import assert_allclose
-from l1ls import l1_ls
+from preggy import expect
+from l1ls import l1ls
 
 # Example taken from the Matlab version
 A = np.array([[1, 0, 0, 0.5], [0, 1, 0.2, 0.3], [0, 0.1, 1, 0.2]])
@@ -20,15 +21,38 @@ rel_tol = 0.01
 
 # Answers expected
 answer = np.array([0.993010, 0.00039478, 0.994096, 0.00403702])
-answer_high_accuracy = np.array([9.9472e-01, 1.0040e-04, 9.9503e-01, 5.5977e-04])
+answer_high_accuracy = np.array([9.9472e-01, 1.0040e-04,
+                                 9.9503e-01, 5.5977e-04])
 
 
 def test_small_example():
-    [x, status, hist] = l1_ls(A, y, lmbda, tar_gap=rel_tol)
+    [x, status, hist] = l1ls(A, y, lmbda, tar_gap=rel_tol)
     assert_allclose(x, answer, atol=1e-5)
+    expect(hist.shape).to_equal((12, 5))
 
 
 def test_high_accuracy():
-    [x, status, hist] = l1_ls(A, y, lmbda, tar_gap=rel_tol / 10)
+    [x, status, hist] = l1ls(A, y, lmbda, tar_gap=rel_tol / 10)
     assert_allclose(x, answer_high_accuracy, atol=1e-5)
+    expect(hist.shape).to_equal((16, 5))
 
+
+def test_initial_value():
+    [x, status, hist] = l1ls(A, y, lmbda, x0=answer, tar_gap=rel_tol)
+    assert_allclose(x, answer, atol=1e-5)
+    expect(x.shape).to_equal(answer.shape)
+    expect(hist.shape[0]).to_equal(1)
+
+
+def test_initial_value_shape():
+    shapedAns = answer.reshape(-1, 1)
+    [x, status, hist] = l1ls(A, y, lmbda, x0=shapedAns, tar_gap=rel_tol)
+    assert_allclose(x, shapedAns, atol=1e-5)
+    expect(x.shape).to_equal(shapedAns.shape)
+    expect(hist.shape[0]).to_equal(1)
+
+
+# Shape of 'y' does not make a difference
+def test_shaped_y():
+    [x, status, hist] = l1ls(A, y.reshape(-1, 1), lmbda, tar_gap=rel_tol)
+    expect(x.shape).to_equal((A.shape[1],))

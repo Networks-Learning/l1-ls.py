@@ -14,8 +14,8 @@ import numpy as np
 from numpy.linalg import norm
 
 
-def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
-          quiet=False, eta=1e-3, pcgmaxi=5000):
+def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
+         quiet=False, eta=1e-3, pcgmaxi=5000):
     """
     Solve a l1-Regularized Least Squares problem.
 
