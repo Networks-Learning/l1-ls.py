@@ -33,7 +33,7 @@ Python package for solving large scale L1 regularized least squares problems.
     keywords='L1 least-squares optimization',
     author='Utkarsh Upadhyay',
     author_email='musically.ut@gmail.com',
-    url='https://github.com/someuser/somepackage',
+    url='https://github.com/musically-ut/l1-ls.py',
     license='MIT',
     classifiers=[
         'Development Status :: 4 - Beta',
