@@ -28,7 +28,8 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
     Parameters
     ----------
     A : mxn matrix
-        input data. Columns correspond to features.
+        input data. Columns correspond to features. Pass sparse matrixes in CSR
+        format for best performance.
     y : m vector
         outcome.
     lmbda : positive float

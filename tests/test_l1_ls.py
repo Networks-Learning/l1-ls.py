@@ -8,6 +8,7 @@
 # Copyright (c) 2015, Utkarsh Upadhyay <musically.ut@gmail.com>
 
 import numpy as np
+import scipy.sparse as S
 from numpy.testing import assert_allclose
 from preggy import expect
 from l1ls import l1ls
@@ -27,6 +28,12 @@ answer_high_accuracy = np.array([9.9472e-01, 1.0040e-04,
 
 def test_small_example():
     [x, status, hist] = l1ls(A, y, lmbda, tar_gap=rel_tol)
+    assert_allclose(x, answer, atol=1e-5)
+    expect(hist.shape).to_equal((12, 5))
+
+
+def test_small_example_sparse():
+    [x, status, hist] = l1ls(S.csr_matrix(A), y, lmbda, tar_gap=rel_tol)
     assert_allclose(x, answer, atol=1e-5)
     expect(hist.shape).to_equal((12, 5))
 
@@ -52,7 +59,7 @@ def test_initial_value_shape():
     expect(hist.shape[0]).to_equal(1)
 
 
-# Shape of 'y' does not make a difference
 def test_shaped_y():
+    # Shape of 'y' does not make a difference
     [x, status, hist] = l1ls(A, y.reshape(-1, 1), lmbda, tar_gap=rel_tol)
     expect(x.shape).to_equal((A.shape[1],))
