@@ -197,7 +197,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
         # Backtracking line search
         phi = z.dot(z) + lmbda * np.sum(u) - np.sum(np.log(-f)) / t
         s = 1.0
-        gdx = np.sum(gradphi * dxu)
+        gdx = gradphi.dot(dxu)
         for lsiter in range(MAX_LS_ITER):
             newx, newu = x + s * dx, u + s * du
             newf = np.hstack([newx - newu, -newx - newu])
