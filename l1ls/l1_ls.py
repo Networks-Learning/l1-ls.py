@@ -209,7 +209,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                     break
             s = BETA * s
 
-        if lsiter == MAX_LS_ITER:
+        if lsiter == MAX_LS_ITER - 1:
             break
 
         x, u, f = newx, newu, newf
