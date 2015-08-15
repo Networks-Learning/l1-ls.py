@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # This file is part of l1ls.
-# https://github.com/someuser/somepackage
+# https://github.com/musically-ut/l1-ls.py
 
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT-license
@@ -48,16 +48,15 @@ Python package for solving large scale L1 regularized least squares problems.
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        # add your dependencies here
-        # remember to use 'package-name>=x.y.z,<x.y+1.0' notation (this way you get bugfixes)
+        # remember to use 'package-name>=x.y.z,<x.y+1.0' notation
+        'scipy>=0.16.0,<0.18.0',
+        'numpy>=1.9.2,<1.10.0'
     ],
     extras_require={
         'tests': tests_require,
     },
     entry_points={
         'console_scripts': [
-            # add cli scripts here in this form:
-            # 'l1ls=l1ls.cli:main',
         ],
     },
 )

@@ -1,11 +1,21 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# This file is part of l1ls.
+# https://github.com/musically-ut/l1-ls.py
+
+# Licensed under the MIT license:
+# http://www.opensource.org/licenses/MIT-license
+# Copyright (c) 2015, Utkarsh Upadhyay <musically.ut@gmail.com>
+
 from __future__ import print_function
 from scipy.sparse.linalg import cg, LinearOperator
 import numpy as np
 from numpy.linalg import norm
 
 
-def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3, quiet=False,
-          eta=1e-3, pcgmaxi=5000):
+def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
+          quiet=False, eta=1e-3, pcgmaxi=5000):
     """
     Solve a l1-Regularized Least Squares problem.
 
@@ -17,13 +27,13 @@ def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3, quiet=Fal
 
     Parameters
     ----------
-    A : mxn matrix;
+    A : mxn matrix
         input data. columns correspond to features.
-    y : m vector;
+    y : m vector
         outcome.
-    lmbda : positive float;
+    lmbda : positive float
         regularization parameter.
-    x0: n vector;
+    x0: ndarray
         initial guess of the solution
     At : nxm matrix, optional
         transpose of A.
@@ -54,8 +64,14 @@ def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3, quiet=Fal
              - 3rd row) dual objective
              - 4th row) step size
              - 5th row) pcg status flag
-    """
 
+    References
+    ----------
+    * S.-J. Kim, K. Koh, M. Lustig, S. Boyd, and D. Gorinevsky. An
+      Interior-Point Method for Large-Scale l1-Regularized Least Squares,
+      (2007), IEEE Journal on Selected Topics in Signal Processing,
+      1(4):606-617.
+    """
     At = A.transpose() if At is None else At
     m = A.shape[0] if m is None else m
     n = A.shape[1] if n is None else n
@@ -71,7 +87,9 @@ def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3, quiet=Fal
 
     t0 = min(max(1, 1/lmbda), 2 * n / 1e-3)
 
-    x, status, history = np.zeros(n), 'Failed', []
+    x = np.zeros(n) if x0 is None else x0.ravel()
+    y = y.ravel()
+    status, history = 'Failed', []
 
     u = np.ones(n)
     t = t0
@@ -87,6 +105,10 @@ def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3, quiet=Fal
     normg = 0
     dxu = np.zeros(2*n) if x0 is None else x0
 
+    if x0 is not None:
+        dxu[:n] = x
+        dxu[n:] = A.dot(x) - y
+
     # This can be slow, so instead, we use a cruder preconditioning
     # diagxtx = diag(At.dot(A))
     diagxtx = 2 * np.ones(n)
@@ -101,7 +123,7 @@ def l1_ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3, quiet=Fal
                       'step len'))
 
     for ntiter in range(0, MAX_NT_ITER):
-        z = np.squeeze(A.dot(x)) - y
+        z = A.dot(x) - y
 
         # Calculating the duality gap
         nu = 2 * z
