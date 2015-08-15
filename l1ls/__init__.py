@@ -9,6 +9,7 @@
 # Copyright (c) 2015, Utkarsh Upadhyay <musically.ut@gmail.com>
 
 from .l1_ls import l1ls
-from l1ls.version import __version__  # NOQA
+from .l1_ls_nonneg import l1ls_nonneg
+from .version import __version__  # NOQA
 
-__all__ = ['__version__', 'l1ls']
+__all__ = ['__version__', 'l1ls', 'l1ls_nonneg']
