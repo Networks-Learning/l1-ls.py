@@ -214,6 +214,10 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
 
         x, u, f = newx, newu, newf
 
+    # Reshape x if the original array was a 2D
+    if x0 is not None:
+        x = x.reshape(*x0.shape)
+
     return (x, status, history)
 
 
