@@ -103,11 +103,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
 
     ntiter, lsiter = 0, 0
     normg = 0
-    dxu = np.zeros(2*n) if x0 is None else x0
-
-    if x0 is not None:
-        dxu[:n] = x
-        dxu[n:] = A.dot(x) - y
+    dxu = np.zeros(2*n)
 
     # This can be slow, so instead, we use a cruder preconditioning
     # diagxtx = diag(At.dot(A))
