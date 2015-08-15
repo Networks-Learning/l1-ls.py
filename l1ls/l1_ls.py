@@ -205,7 +205,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                 newz = A.dot(newx) - y
                 newphi = newz.dot(newz) + \
                     lmbda * np.sum(newu) - np.sum(np.log(-newf)) / t
-                if newphi - phi <= ALPHA * gdx:
+                if newphi - phi <= ALPHA * s * gdx:
                     break
             s = BETA * s
 
