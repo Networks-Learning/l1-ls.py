@@ -9,7 +9,7 @@
 # Copyright (c) 2015, Utkarsh Upadhyay <musically.ut@gmail.com>
 
 from setuptools import setup, find_packages
-from l1ls import __version__
+import re
 
 tests_require = [
     'mock',
@@ -22,6 +22,16 @@ tests_require = [
     'coveralls',
     'sphinx',
 ]
+
+__version__ = None
+vRegEx = re.compile(r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]')
+with open('./l1ls/version.py') as f:
+    __version__ = [vRegEx.match(l).group(1) for l in f.readlines()
+                   if vRegEx.match(l)][0]
+
+if __version__ is None:
+    raise ValueError('__version__ not found!')
+
 
 setup(
     name='l1ls',
