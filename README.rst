@@ -6,6 +6,9 @@ l1-ls
 This is a large scale L1 regularized Least Square (L!-LS) solver written in
 Python. The code is based entirely on the MATLAB code made available on `Stephen Boyd's l1_ls page <http://stanford.edu/~boyd/papers/l1_ls.html>`_.
 
+|L1LSProblem|
+
+
 Installation
 ------------
 
@@ -59,3 +62,5 @@ Reference
 
 .. |BuildStatus| image:: https://travis-ci.org/musically-ut/l1-ls.py.svg?branch=master
    :target: https://travis-ci.org/musically-ut/l1-ls.py
+
+.. |L1LSProblem| image:: http://i.imgur.com/YB8JDTX.gif
