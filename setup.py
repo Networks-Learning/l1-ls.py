@@ -10,6 +10,12 @@
 
 from setuptools import setup, find_packages
 import re
+import os
+
+
+# Utility function to read the README file.
+def getPath(fname):
+    return os.path.join(os.path.dirname(__file__), fname)
 
 tests_require = [
     'mock',
@@ -24,22 +30,26 @@ tests_require = [
 ]
 
 __version__ = None
-vRegEx = re.compile(r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]')
-with open('./l1ls/version.py') as f:
-    __version__ = [vRegEx.match(l).group(1) for l in f.readlines()
-                   if vRegEx.match(l)][0]
+try:
+    vRegEx = re.compile(r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]')
+    with open(getPath('./l1ls/version.py')) as f:
+        __version__ = [vRegEx.match(l).group(1) for l in f.readlines()
+                       if vRegEx.match(l)][0]
+except:
+    pass
 
 if __version__ is None:
     raise ValueError('__version__ not found!')
 
+with open(getPath('README.rst')) as f:
+    longDescription = f.read()
 
 setup(
     name='l1ls',
     version=__version__,
-    description='Python package for solving large scale L1 regularized least squares problems.',
-    long_description='''
-Python package for solving large scale L1 regularized least squares problems.
-''',
+    description='Python package for solving large scale L1 regularized'
+                'least squares problems.',
+    long_description=longDescription,
     keywords='L1 least-squares optimization',
     author='Utkarsh Upadhyay',
     author_email='musically.ut@gmail.com',
@@ -50,7 +60,6 @@ Python package for solving large scale L1 regularized least squares problems.
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Operating System :: Unix',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
         'Operating System :: OS Independent',
