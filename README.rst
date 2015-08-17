@@ -3,8 +3,8 @@ l1-ls
 
 |BuildStatus|
 
-This is a large scale L1 regularized Least Square (L!-LS) solver written in
-Python. The code is based entirely on the MATLAB code made available on `Stephen Boyd's l1_ls page <http://stanford.edu/~boyd/papers/l1_ls.html>`_.
+This is a large scale L1 regularized Least Square (L1-LS) solver written in
+Python. The code is based on the MATLAB code made available on `Stephen Boyd's l1_ls page <http://stanford.edu/~boyd/papers/l1_ls.html>`_.
 
 |L1LSProblem|
 
@@ -19,7 +19,7 @@ You can install the bleeding edge directly from the source:
     pip install git+https://github.com/musically-ut/l1-ls.py.git@master#egg=l1ls
 
 
-This package is also available on PyPi.
+This package is also available on `PyPi <https://pypi.python.org/pypi/l1ls>`_.
 
 ::
 
