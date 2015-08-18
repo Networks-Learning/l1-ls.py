@@ -148,7 +148,8 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                                  pobjs, dobjs, sts, pflgs]).transpose()
             if not quiet:
                 print('Absolute tolerance reached.')
-                break
+
+            break
 
         # Update t
         if s >= 0.5:
