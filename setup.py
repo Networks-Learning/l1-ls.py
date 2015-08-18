@@ -65,7 +65,9 @@ setup(
         'Operating System :: OS Independent',
     ],
     packages=find_packages(),
+    test_suite='nose.collector',
     include_package_data=True,
+    zip_safe=True,
     install_requires=[
         # remember to use 'package-name>=x.y.z,<x.y+1.0' notation
         'scipy>=0.16.0,<0.18.0',
