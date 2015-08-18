@@ -148,7 +148,6 @@ def l1ls_nonneg(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                                  pobjs, dobjs, sts, pflgs]).transpose()
             if not quiet:
                 print('Absolute tolerance reached.')
-
             break
 
         # Update t
@@ -186,7 +185,9 @@ def l1ls_nonneg(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                             'Could not run PCG on it.')
         elif info > 0:
             pflg = 1
-            print('Could not converge PCG after {} iterations.'.format(info))
+            if not quiet:
+                print('Could not converge PCG after {} iterations.'
+                      '' .format(info))
         else:
             pflg = 0
 
@@ -204,12 +205,17 @@ def l1ls_nonneg(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                 if newphi - phi <= ALPHA * s * gdx:
                     break
             s = BETA * s
-
-        if lsiter == MAX_LS_ITER - 1:
-            print('Could not find optimal point during line search.')
+        else:
+            if not quiet:
+                print('MAX_LS_ITER exceeded in BLS')
+            status = 'Failed'
             break
 
         x, f = newx, newf
+    else:
+        if not quiet:
+            print('MAX_NT_ITER exceeded.')
+        status = 'Failed'
 
     # Reshape x if the original array was a 2D
     if x0 is not None:

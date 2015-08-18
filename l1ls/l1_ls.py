@@ -178,7 +178,6 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                          -gradphi, x0=dxu, tol=pcgtol, maxiter=pcgmaxi,
                          M=MXfunc(A, At, d1, d2, p1, p2, p3))
 
-
         # This is to increase the tolerance of the underlying PCG if
         # it converges to the same solution without offering an increase
         # in the solution of the actual problem
@@ -191,7 +190,9 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                             'Could not run PCG on it.')
         elif info > 0:
             pflg = 1
-            print('Could not converge PCG after {} iterations.'.format(info))
+            if not quiet:
+                print('Could not converge PCG after {} iterations.'
+                      ''.format(info))
         else:
             pflg = 0
 
@@ -211,12 +212,17 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
                 if newphi - phi <= ALPHA * s * gdx:
                     break
             s = BETA * s
-
-        if lsiter == MAX_LS_ITER - 1:
-            print('Could not find optimal point during line search.')
+        else:
+            if not quiet:
+                print('MAX_LS_ITER exceeded in BLS')
+            status = 'Failed'
             break
 
         x, u, f = newx, newu, newf
+    else:
+        if not quiet:
+            print('MAX_NT_ITER exceeded.')
+        status = 'Failed'
 
     # Reshape x if the original array was a 2D
     if x0 is not None:

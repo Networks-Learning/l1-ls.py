@@ -33,36 +33,59 @@ def test_small_example():
     [x, status, hist] = l1ls(A, y, lmbda, tar_gap=rel_tol)
     assert_allclose(x, answer, atol=1e-5)
     expect(hist.shape).to_equal((12, 5))
+    expect(status).to_equal('Solved')
+
+
+def test_small_example_zero():
+    [x, status, hist] = l1ls(A, np.zeros_like(y), lmbda, tar_gap=rel_tol)
+    expect(status).to_equal('Failed')
+    # TODO: Abstract the constants into a file and verify the number of
+    # iterations in the history
+    # expect(hist.shape[0]).to_equal(MAX_NT_ITER)
+
+
+def test_small_example_nonneg_zero():
+    [x, status, hist] = l1ls_nonneg(A, np.zeros_like(y), lmbda,
+                                    tar_gap=rel_tol)
+    expect(status).to_equal('Failed')
+    # TODO: Abstract the constants into a file and verify the number of
+    # iterations in the history
+    # expect(hist.shape[0]).to_equal(MAX_NT_ITER)
 
 
 def test_small_example_nonneg():
     [x, status, hist] = l1ls_nonneg(A, y, lmbda, tar_gap=rel_tol)
     assert_allclose(x, answer_nonneg, atol=1e-5)
     expect(hist.shape).to_equal((12, 5))
+    expect(status).to_equal('Solved')
 
 
 def test_small_example_sparse():
     [x, status, hist] = l1ls(S.csr_matrix(A), y, lmbda, tar_gap=rel_tol)
     assert_allclose(x, answer, atol=1e-5)
     expect(hist.shape).to_equal((12, 5))
+    expect(status).to_equal('Solved')
 
 
 def test_small_example_sparse_nonneg():
     [x, status, hist] = l1ls_nonneg(S.csr_matrix(A), y, lmbda, tar_gap=rel_tol)
     assert_allclose(x, answer_nonneg, atol=1e-5)
     expect(hist.shape).to_equal((12, 5))
+    expect(status).to_equal('Solved')
 
 
 def test_high_accuracy():
     [x, status, hist] = l1ls(A, y, lmbda, tar_gap=rel_tol / 10)
     assert_allclose(x, answer_high_accuracy, atol=1e-5)
     expect(hist.shape).to_equal((16, 5))
+    expect(status).to_equal('Solved')
 
 
 def test_high_accuracy_nonneg():
     [x, status, hist] = l1ls_nonneg(A, y, lmbda, tar_gap=rel_tol / 10)
     assert_allclose(x, answer_high_accuracy_nonneg, atol=1e-5)
     expect(hist.shape).to_equal((15, 5))
+    expect(status).to_equal('Solved')
 
 
 def test_initial_value():
@@ -70,6 +93,7 @@ def test_initial_value():
     assert_allclose(x, answer, atol=1e-5)
     expect(x.shape).to_equal(answer.shape)
     expect(hist.shape[0]).to_equal(1)
+    expect(status).to_equal('Solved')
 
 
 def test_initial_value_shape():
@@ -78,9 +102,11 @@ def test_initial_value_shape():
     assert_allclose(x, shapedAns, atol=1e-5)
     expect(x.shape).to_equal(shapedAns.shape)
     expect(hist.shape[0]).to_equal(1)
+    expect(status).to_equal('Solved')
 
 
 def test_shaped_y():
     # Shape of 'y' does not make a difference
     [x, status, hist] = l1ls(A, y.reshape(-1, 1), lmbda, tar_gap=rel_tol)
     expect(x.shape).to_equal((A.shape[1],))
+    expect(status).to_equal('Solved')
