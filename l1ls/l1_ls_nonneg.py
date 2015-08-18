@@ -153,7 +153,7 @@ def l1ls_nonneg(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
 
         # Update t
         if s >= 0.5:
-            t = max(min(n * MU/gap, MU * t), t)
+            t = max(min(n * MU / gap, MU * t), t)
 
         # Calculate Newton step
         d1 = (1.0 / t) / (x ** 2)
@@ -206,6 +206,7 @@ def l1ls_nonneg(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
             s = BETA * s
 
         if lsiter == MAX_LS_ITER - 1:
+            print('Could not find optimal point during line search.')
             break
 
         x, f = newx, newf

@@ -153,7 +153,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
 
         # Update t
         if s >= 0.5:
-            t = max(min(2 * n * MU/gap, MU * t), t)
+            t = max(min(2 * n * MU / gap, MU * t), t)
 
         # Calculate Newton step
         q1, q2 = 1 / (u + x), 1 / (u - x)
@@ -173,9 +173,11 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
 
         p1, p2, p3 = d1 / prs, d2 / prs, prb / prs
         dxu_old = dxu
+
         [dxu, info] = cg(AXfunc(A, At, d1, d2, p1, p2, p3),
                          -gradphi, x0=dxu, tol=pcgtol, maxiter=pcgmaxi,
                          M=MXfunc(A, At, d1, d2, p1, p2, p3))
+
 
         # This is to increase the tolerance of the underlying PCG if
         # it converges to the same solution without offering an increase
@@ -211,6 +213,7 @@ def l1ls(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
             s = BETA * s
 
         if lsiter == MAX_LS_ITER - 1:
+            print('Could not find optimal point during line search.')
             break
 
         x, u, f = newx, newu, newf
