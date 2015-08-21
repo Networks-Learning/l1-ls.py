@@ -209,6 +209,8 @@ def l1ls_nonneg(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
             if not quiet:
                 print('MAX_LS_ITER exceeded in BLS')
             status = 'Failed'
+            history = np.vstack([np.asarray(pobjs) - np.asarray(dobjs),
+                                 pobjs, dobjs, sts, pflgs]).transpose()
             break
 
         x, f = newx, newf
@@ -216,6 +218,8 @@ def l1ls_nonneg(A, y, lmbda, x0=None, At=None, m=None, n=None, tar_gap=1e-3,
         if not quiet:
             print('MAX_NT_ITER exceeded.')
         status = 'Failed'
+        history = np.vstack([np.asarray(pobjs) - np.asarray(dobjs),
+                             pobjs, dobjs, sts, pflgs]).transpose()
 
     # Reshape x if the original array was a 2D
     if x0 is not None:
