@@ -70,8 +70,8 @@ setup(
     zip_safe=True,
     install_requires=[
         # remember to use 'package-name>=x.y.z,<x.y+1.0' notation
-        'scipy>=0.16.0,<0.18.0',
-        'numpy>=1.9.2,<1.10.0'
+        'scipy>=0.15.0',
+        'numpy>=1.9.0'
     ],
     extras_require={
         'tests': tests_require,
