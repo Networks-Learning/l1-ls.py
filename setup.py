@@ -62,6 +62,7 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Operating System :: OS Independent',
     ],
     packages=find_packages(),
@@ -69,9 +70,8 @@ setup(
     include_package_data=True,
     zip_safe=True,
     install_requires=[
-        # remember to use 'package-name>=x.y.z,<x.y+1.0' notation
-        'scipy>=0.15.0',
-        'numpy>=1.9.0'
+        'scipy>=0.16.0',
+        'numpy>=1.9.2'
     ],
     extras_require={
         'tests': tests_require,
