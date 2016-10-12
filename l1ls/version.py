@@ -8,5 +8,5 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Utkarsh Upadhyay <musically.ut@gmail.com>
 
-__version__ = '0.2.0.dev'  # NOQA
+__version__ = '0.2.1'  # NOQA
 
