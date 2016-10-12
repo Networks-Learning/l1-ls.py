@@ -60,7 +60,7 @@ Reference
   (2007), IEEE Journal on Selected Topics in Signal Processing,
   1(4):606-617.
 
-.. |BuildStatus| image:: https://travis-ci.org/musically-ut/l1-ls.py.svg?branch=master
-   :target: https://travis-ci.org/musically-ut/l1-ls.py
+.. |BuildStatus| image:: https://travis-ci.org/Networks-Learning/l1-ls.py.svg?branch=master
+   :target: https://travis-ci.org/Networks-Learning/l1-ls.py
 
 .. |L1LSProblem| image:: http://i.imgur.com/YB8JDTX.gif
